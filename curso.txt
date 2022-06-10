@@ -1,0 +1,105 @@
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.4;
+
+contract EjemploMAPI {
+    uint balance = 1000;
+
+    function darBalance() public view returns (uint) {
+        return balance;
+    }
+
+    function depositar (uint valor) public {
+        balance = balance + valor;
+    }
+}
+
+0xb27A31f1b0AF2946B7F582768f03239b1eC07c2c
+
+
+
+
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.4;
+
+contract EjemploMAPI {
+    uint balance = 1000;
+
+
+    function darBalance() public view returns (uint) {
+        return balance;
+    }
+
+    function depositar (uint valor) public {
+        balance = balance + valor;
+    }
+
+
+    function transferir () payable public {
+        depositar(msg.value);
+    }
+}
+
+
+
+
+
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.4;
+
+contract EjemploMAPI {
+    uint balance = 1000;    
+    address propietario;
+
+    constructor ()  {
+        propietario = msg.sender;
+    }
+
+
+    function darBalance() public view returns (uint) {
+        return balance;
+    }
+
+    function depositar (uint valor) public {
+        balance = balance + valor;
+    }
+
+
+    function transferir () payable public {
+        depositar(msg.value);
+    }
+}
+
+
+
+
+
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.7;
+
+contract MAPI2 {
+
+    address public propietario;
+    uint256 public saldo;
+    
+
+    constructor(){
+        propietario = msg.sender; 
+        saldo = 0;
+    }
+
+    receive() payable external {
+        saldo += msg.value;
+    }
+
+    function transferir (uint cantidad, address payable destino) payable public {
+        require(msg.sender == propietario, "solo el propietario puede transferir");
+        require(cantidad <= saldo, "fondos insuficientes");
+        destino.transfer(cantidad);
+        saldo -= cantidad;
+    }
+
+    function consignar (uint cantidad) public {
+        saldo += cantidad;
+    }
+
+}
